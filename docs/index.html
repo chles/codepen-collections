@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Codepens collections</title>
+    <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <style type="text/css">
+      @font-face {
+          font-family: 'rosarinaregular';
+          src: url('fonts/rosarina-webfont.woff2') format('woff2'),
+               url('fonts/rosarina-webfont.woff') format('woff');
+          font-weight: normal;
+          font-style: normal;
+
+      }
+      *{
+        box-sizing: border-box;
+      }
+      html,body{
+        width: 100%;
+        min-height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: 'rosarinaregular';
+        background-color: #000;
+      }
+      #app{
+        min-height: 100%;
+        color: #fff;
+        background-color: #000;
+      }
+      #app > div{
+        min-height: 100%;
+      }
+      h1{
+        margin-bottom: 50px;
+      }
+      /* ASIDE */
+      aside{
+        position: fixed;
+        width: 20%;
+        padding: 2%;
+        background-color: #000;
+        border-right: 1px solid #222;
+      }
+      aside > button{
+        display: block;
+        width: 100%;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border: none;
+        text-align: left;
+        color: inherit;
+        background-color: transparent;
+        border-bottom: 1px solid #fff;
+      }
+      aside > button:hover{
+        cursor: pointer;
+        color: #000;
+        background-color: #fff;
+      }
+      /* SECTION */
+      section{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        width: 80%;
+        margin-left: 20%;
+        background-color: #000;
+      }
+      section > a{
+        position: relative;
+        margin: 45px 90px;
+        font-size: 40px;
+        color: inherit;
+        text-decoration: none;
+      }
+      section > a > span{
+        position: absolute;
+        top: 100%;
+        left: 0;
+        font-size: 16px;
+        color: #666;
+      }
+      .item:not(.active){
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+
+      /* Not an ES6 syntax */
+      /*var Component = React.createClass({
+        render: function(){
+          return(
+            <h1>First composant with value of {this.props.value}</h1>
+            <select>
+              <option value='vone'>VONE</option>
+              <option value='vtwo'>VTWO</option>
+              <option value='vthree'>VTHREE</option>
+            </select>
+          );
+        }
+      });*/
+
+      /* ES6 syntax */
+      class App extends React.Component{
+        constructor(props){
+          super(props);
+          this.state = {
+            filter: 'all',
+            pens: [
+                {
+                    id: 'XNEdRe',
+                    slug: 'https://codepen.io/triss90/pen/XNEdRe',
+                    type: 'css',
+                    desc: 'CSS Radio Buttons'
+                },
+                {
+                    id: 'wMZBOg',
+                    slug: 'https://codepen.io/VPenkov/pen/wMZBOg',
+                    type: 'utils',
+                    desc: 'okayNav Demo'
+                },
+                {
+                    id: 'PzGYEE',
+                    slug: 'https://codepen.io/jonneal/pen/PzGYEE',
+                    type: 'css',
+                    desc: 'Decorative Text Underline'
+                },
+                {
+                    id: 'xVOjZq',
+                    slug: 'https://codepen.io/chrisgannon/pen/xVOjZq',
+                    type: 'svg',
+                    desc: 'SVG Page Hopper'
+                },
+                /*{
+                    id: 'aNYWKE',
+                    slug: 'https://codepen.io/karlovidek/pen/aNYWKE',
+                    type: ['css','javascript'],
+                    desc: 'Mobile navigation animation'
+                },*/
+                {
+                    id: 'RawvLB',
+                    slug: 'http://codepen.io/airnan/pen/RawvLB',
+                    type: 'fun',
+                    desc: 'Bacon Pancakes'
+                },
+                {
+                    id: 'ZOrEmr',
+                    slug: 'https://codepen.io/MadeByMike/pen/ZOrEmr',
+                    type: 'css',
+                    desc: 'CSS only scroll indicator'
+                },
+                {
+                    id: 'wMqXea',
+                    slug: 'https://codepen.io/davidkpiano/pen/wMqXea',
+                    type: 'fun',
+                    desc: 'Alex the CSS Husky'
+                },
+                {
+                    id: 'PNXbGo',
+                    slug: 'https://codepen.io/zadvorsky/pen/PNXbGo',
+                    type: 'javascript',
+                    desc: 'THREE Image Transition'
+                },
+                {
+                    id: 'mRraOd',
+                    slug: 'http://codepen.io/renduh/pen/mRraOd',
+                    type: 'fun',
+                    desc: 'CSS ONLY Girl Running'
+                },
+            ]
+          }
+          this.handleChange = this.handleChange.bind(this);
+        }
+        handleChange(value){
+          this.setState({filter: value});
+        }
+        render(){
+          var list = [];
+          for(var i = 0; i < this.state.pens.length; i++){
+            var isActive = this.state.pens[i].type === this.state.filter || this.state.filter === 'all';
+            list.push( <Item key={i} active={isActive} id={this.state.pens[i].id} desc={this.state.pens[i].desc} slug={this.state.pens[i].slug} /> );
+          }
+          return(
+            <div>
+              <aside>
+                <h1 dangerouslySetInnerHTML={{__html: this.props.title}}></h1>
+                <button onClick={() => this.handleChange('all')}>ALL</button>
+                <button onClick={() => this.handleChange('utils')}>UTILS</button>
+                <button onClick={() => this.handleChange('css')}>CSS</button>
+                <button onClick={() => this.handleChange('javascript')}>JAVASCRIPT</button>
+                <button onClick={() => this.handleChange('svg')}>SVG</button>
+                <button onClick={() => this.handleChange('fun')}>FUN</button>
+              </aside>
+              <section id="list">
+                {list}
+              </section>
+            </div>
+          )
+        }
+      }
+
+
+      class Item extends React.Component{
+        render(){
+          var className = 'item';
+          if( this.props.active ){
+            className += ' active';
+          }
+          return(
+            <a href={this.props.slug} target='_blank' className={className}>{this.props.id}<span>{this.props.desc}</span></a>
+          )
+        }
+      }
+
+      ReactDOM.render(
+        <App title="CODEPENS<br>COLLECTIONS" />,
+        document.getElementById('app')
+      );
+
+    </script>
+  </body>
+</html>
